@@ -1,2 +1,2 @@
 # rtjuke-core
-Core library of RTJuke
+The core library of the RTJuke audio player which provides basic datatype and interface definitions
