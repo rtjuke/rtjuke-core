@@ -141,6 +141,11 @@ namespace RTJuke.Core.Audio
         /// </summary>
         event EventHandler BufferStateChanged;
 
+        /// <summary>
+        /// Raised when the fading in or out has finished
+        /// </summary>
+        event EventHandler FadeEnded;
+
         #endregion
     }
 

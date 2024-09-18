@@ -94,6 +94,7 @@ namespace RTJuke.Core.Audio
         public event EventHandler PositionChanged;
         public event EventHandler LengthChanged;
         public event EventHandler BufferStateChanged;
+        public event EventHandler FadeEnded;
 
         public BufferedAudioFile(Func<Task<IAudioFile>> streamFunc, Song song)
         {
@@ -121,6 +122,7 @@ namespace RTJuke.Core.Audio
             wrapped.PlayStateChanged += PlayStateChanged_Handler;
             wrapped.LengthChanged += LengthChanged_Handler;
             wrapped.BufferStateChanged += BufferProgressChanged_Handler;
+            wrapped.FadeEnded += FadeEnded_Handler;
 
             bool result = await wrapped.LoadAsync();
             OnPlayStateChanged();
@@ -245,6 +247,11 @@ namespace RTJuke.Core.Audio
             OnBufferProgressChanged();
         }
 
+        protected void FadeEnded_Handler(object sender, EventArgs e)
+        {
+            OnFadeEnded();
+        }
+
         protected void OnPlayStateChanged()
         {
             var pc = PlayStateChanged;
@@ -269,6 +276,13 @@ namespace RTJuke.Core.Audio
         protected void OnBufferProgressChanged()
         {
             var eh = BufferStateChanged;
+            if (eh != null)
+                eh(this, EventArgs.Empty);
+        }
+
+        protected void OnFadeEnded()
+        {
+            var eh = FadeEnded;
             if (eh != null)
                 eh(this, EventArgs.Empty);
         }
